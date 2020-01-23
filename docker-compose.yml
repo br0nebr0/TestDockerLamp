@@ -2,13 +2,22 @@ version: "3.5"
 
 services:
 
-    php:
-        build:
-            context: php
+    nginx:
+        image: nginx
         ports:
-        - 80:80
+            - 80:80
         volumes:
-        - ./app:/var/www/html
+            - ./app:/var/www/html
+            - ./configs/nginx:/etc/nginx/conf.d
+            - ./logs/nginx:/var/log/nginx
+
+    php-fpm:
+        build:
+            context: php-fpm
+        ports:
+            - 9000:9000
+        volumes:
+            - ./app:/var/www/html
 
     mariadb:
         image: mariadb:10.4
